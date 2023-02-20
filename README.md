@@ -1,11 +1,9 @@
 # 使用方法
 ```javascipt
+npm run build
 ```
-# 注意
-### 上传频率根据服务器lua脚本设置的返回值确定
+# 
+### 图片编辑工具
 ```json
-{
-  "rate":120000,
-  "byte":20971520
-}
- ```# image-edit
+修改后可以保存生成图片
+```# image-edit
