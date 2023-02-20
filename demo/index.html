@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/dist/pictureEditor.min.js"></script>
+    <style>
+        #pictureEditorDom {
+            width: 600px;
+            height: 300px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pictureEditorDom"></div>
+    <button onclick="setSize(-0.1)">缩小</button>
+    <button onclick="setSize(0.1)">放大</button>
+    <button onclick="setMode('LINE_MODE')">画笔</button>
+    <button onclick="setMode('MOVE_MODE')">移动</button>
+    <button onclick="setMode('ERASER_MODE')">擦除</button>
+    <button onclick="setLineWidth(15)">画笔放大</button>
+    <button onclick="saveImg()">保存图片</button>
+    <button onclick="handleRollBack()">撤销</button>
+    <button onclick="handleRollForward()">恢复</button>
+    <button onclick="initCanvas()">初始化</button>
+    <button onclick="setMode('RECTCLEAN_MODE')">框选擦除</button>
+    <script>
+        var mouseMode = 'MOVE_MODE';
+        var canvasScale = 1;
+        var pictureEditor = new PictureEditor({
+            id: "pictureEditorDom",
+            imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxmhEf-gMlwrvhbm-2px-RKIsKJlcC7EwR7A&usqp=CAU',
+            onmousedownCallBack: function (event) {
+                const downX = event.pageX
+                const downY = event.pageY;
+                // 区分我们现在选择的鼠标模式：移动、画笔、橡皮擦
+                switch (mouseMode) {
+                    case 'MOVE_MODE':
+                        pictureEditor.handleMoveMode(downX, downY)
+                        break
+                    case 'LINE_MODE':
+                        pictureEditor.handleLineMode(downX, downY)
+                        break
+                    case 'ERASER_MODE':
+                        pictureEditor.handleEraserMode(downX, downY)
+                        break
+                    case 'RECTCLEAN_MODE':
+                        pictureEditor.handleRectCleanMode(downX, downY)
+                        break
+                    default:
+                        break
+                }
+            },
+            onwheelCallBack: function (event) {
+                var deltaY = event.deltaY
+                // 这里要注意一下，我是0.1来递增递减，但是因为JS使用IEEE 754，来计算，所以精度有问题，我们自己处理一下
+                const newScale = deltaY > 0 ? canvasScale - 0.1 : canvasScale + 0.1;
+                if (newScale < 0.1 || newScale > 2) return
+                canvasScale = newScale
+                pictureEditor.setCanvasScale(canvasScale)
+            }
+        });
+        var wrap = document.getElementById("pictureEditorDom");
+        function initCanvas() {
+            pictureEditor.initCanvas();
+        }
+        function setSize(count) {
+            canvasScale += count;
+            pictureEditor.setCanvasScale(canvasScale)
+        }
+        function setLineWidth(newLineWidth) {
+            pictureEditor.setLineWidth(newLineWidth)
+        }
+        function saveImg() {
+            pictureEditor.canvasSaveImage();
+        }
+        function setMode(modeVal) {
+            mouseMode = modeVal;
+            pictureEditor.handleMouseModeChange(modeVal)
+        }
+        function handleRollBack() {
+            pictureEditor.handleRollBack();
+        }
+        function handleRollForward() {
+            pictureEditor.handleRollForward();
+        }
+        // wrap.onmouseout = function (event) {
+        //     console.log(event)
+        //     // 区分我们现在选择的鼠标模式：移动、画笔、橡皮擦
+        //     switch (mouseMode) {
+        //         case 'move':
+        //             if(wrap.onmouseup) wrap.onmouseup(event)
+        //             break
+        //         case 'line':
+        //             handleLineMode(downX, downY)
+        //             break
+        //         case 'eraser':
+        //             handleEraserMode(downX, downY)
+        //             break
+        //         default:
+        //             break
+        //     }
+        // }
+    </script>
+</body>
+
+</html>

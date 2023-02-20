@@ -1,0 +1,40 @@
+{
+  "name": "eschool-doc-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "axios": "^0.21.1",
+    "localforage": "^1.9.0",
+    "ramda": "^0.27.1",
+    "webpack": "^4.42.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.0-beta.0",
+    "babel-preset-env": "^1.7.0",
+    "chalk": "^4.0.0",
+    "ora": "^4.0.3",
+    "rimraf": "^3.0.2",
+    "shelljs": "^0.8.3",
+    "ts-loader": "^8.0.2",
+    "typescript": "^3.9.7",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server -p --mode development --config build/webpack.config.js --progress --color",
+    "build": "node build/build.js"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
