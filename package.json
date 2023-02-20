@@ -29,7 +29,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server -p --mode development --config build/webpack.config.js --progress --color",
-    "build": "node build/build.js"
+    "build": "node build/build.js --openssl-legacy-provider"
   },
   "engines": {
     "node": ">= 6.0.0",
